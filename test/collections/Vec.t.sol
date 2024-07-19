@@ -12,7 +12,7 @@ contract VecTest is Test {
         cap = bound(cap, 0, 200);
         UintVec memory values = VecLib.uint_with_cap(cap);
         assertEq(values._mem.length, cap);
-        assertEq(values.length(), 0);
+        assertEq(values.length, 0);
     }
 
     function test_fuzzing_push(uint256 startCap, uint256 totalPushes, uint256 seed) public pure {
@@ -30,8 +30,8 @@ contract VecTest is Test {
             for (uint256 j = 0; j < i + 1; j++) {
                 assertEq(stored[j], vec.get(j));
             }
-            assertEq(vec.length(), i + 1);
-            assertLe(vec.length(), vec._mem.length);
+            assertEq(vec.length, i + 1);
+            assertLe(vec.length, vec._mem.length);
         }
     }
 }
