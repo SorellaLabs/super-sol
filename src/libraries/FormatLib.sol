@@ -31,7 +31,19 @@ library FormatLib {
             s := mload(0x40)
             mstore(0x40, add(s, xor(0x25, b)))
             mstore(s, 0)
-            mstore(add(s, 5), xor(mul(b, 0x0167dc054471 /* "\x04true\x00" ^ "\0x05false" */ ), 0x0566616c7365))
+            mstore(
+                add(s, 5),
+                xor(
+                    mul(
+                        b,
+                        xor(
+                            "\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x05false",
+                            "\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x04true\x00"
+                        )
+                    ),
+                    "\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x05false"
+                )
+            )
         }
     }
 
