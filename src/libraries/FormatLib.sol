@@ -2,7 +2,7 @@
 pragma solidity ^0.8.0;
 
 import {Math} from "./Math.sol";
-import {LibString} from "solady/utils/LibString.sol";
+import {LibString} from "solady/src/utils/LibString.sol";
 
 library FormatLib {
     using Math for *;
