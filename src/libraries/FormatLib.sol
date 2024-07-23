@@ -2,30 +2,37 @@
 pragma solidity ^0.8.0;
 
 import {Math} from "./Math.sol";
+import {LibString} from "solady/utils/LibString.sol";
 
 library FormatLib {
     using Math for *;
     using FormatLib for *;
+    using LibString for *;
+
+    function toStr(address x) internal pure returns (string memory) {
+        return x.toHexStringChecksummed();
+    }
 
     function toStr(uint256 x) internal pure returns (string memory) {
-        if (x == 0) return "0";
-        bytes memory b;
-        while (x > 0) {
-            uint8 c = uint8(48 + x % 10);
-            b = abi.encodePacked(c, b);
-            x /= 10;
-        }
-        return string(b);
+        return x.toString();
     }
 
     function toStr(int256 x) internal pure returns (string memory) {
-        string memory str = x.abs().toStr();
-        if (x >= 0) return str;
-        return string.concat("-", str);
+        return x.toString();
     }
 
-    function toStr(bool b) internal pure returns (string memory) {
-        return b ? "true" : "false";
+    function toStr(bytes memory data) internal pure returns (string memory) {
+        return data.toHexString();
+    }
+
+    function toStr(bool b) internal pure returns (string memory s) {
+        assembly ("memory-safe") {
+            b := lt(0, b)
+            s := mload(0x40)
+            mstore(0x40, add(s, xor(0x25, b)))
+            mstore(s, 0)
+            mstore(add(s, 5), xor(mul(b, 0x0167dc054471 /* "\x04true\x00" ^ "\0x05false" */ ), 0x0566616c7365))
+        }
     }
 
     function toStr(uint256[] memory values) internal pure returns (string memory) {

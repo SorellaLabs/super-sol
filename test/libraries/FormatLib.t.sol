@@ -6,6 +6,11 @@ import {FormatLib} from "src/libraries/FormatLib.sol";
 
 /// @author philogy <https://github.com/philogy>
 contract FormatLibTest is Test {
+    function test_bool_toStr() public pure {
+        assertEq(FormatLib.toStr(false), "false");
+        assertEq(FormatLib.toStr(true), "true");
+    }
+
     function test_toString() public pure {
         assertEq(FormatLib.toStr(uint256(0)), "0");
         assertEq(FormatLib.toStr(uint256(1)), "1");
