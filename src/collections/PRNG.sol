@@ -1,6 +1,9 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.13;
 
+import {FixedPointMathLib} from "solady/src/utils/FixedPointMathLib.sol";
+import {SignedUnsignedLib} from "../libraries/SignedUnsignedLib.sol";
+
 struct PRNG {
     uint256 __state;
 }
@@ -9,6 +12,9 @@ using PRNGLib for PRNG global;
 
 /// @author philogy <https://github.com/philogy>
 library PRNGLib {
+    using FixedPointMathLib for *;
+    using SignedUnsignedLib for *;
+
     error InvalidBounds();
 
     function randbool(PRNG memory self) internal pure returns (bool) {
@@ -38,6 +44,16 @@ library PRNGLib {
     function randuint8(PRNG memory self, uint256 max) internal pure returns (uint8) {
         require(max <= 256, "Invalid max");
         return uint8(self.randuint(max));
+    }
+
+    function randmag(PRNG memory self, uint256 low, uint256 high) internal pure returns (uint256) {
+        require(low != 0, "Low 0");
+        require(low < high, "Low not below high");
+        uint256 maxMag = high.divWad(low);
+        int256 maxExp = maxMag.signed().lnWad();
+        int256 pow = self.randint(0, maxExp);
+        uint256 factor = pow.expWad().unsigned();
+        return low.mulWad(factor);
     }
 
     function randBytes(PRNG memory rng, uint256 minLen, uint256 maxLen) internal pure returns (bytes memory b) {
