@@ -67,4 +67,10 @@ library CalldataReaderLib {
             value := shr(128, calldataload(self))
         }
     }
+
+    function readU256(CalldataReader self) internal pure returns (uint256 value) {
+        assembly {
+            value := calldataload(self)
+        }
+    }
 }
