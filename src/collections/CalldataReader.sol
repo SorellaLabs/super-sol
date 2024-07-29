@@ -38,6 +38,12 @@ library CalldataReaderLib {
         }
     }
 
+    function readU8(CalldataReader self) internal pure returns (uint8 value) {
+        assembly {
+            value := shr(248, calldataload(self))
+        }
+    }
+
     function readU16(CalldataReader self) internal pure returns (uint16 value) {
         assembly {
             value := shr(240, calldataload(self))
