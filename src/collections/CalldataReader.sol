@@ -68,6 +68,12 @@ library CalldataReaderLib {
         }
     }
 
+    function readAddr(CalldataReader self) internal pure returns (address addr) {
+        assembly {
+            addr := shr(96, calldataload(self))
+        }
+    }
+
     function readU256(CalldataReader self) internal pure returns (uint256 value) {
         assembly {
             value := calldataload(self)
