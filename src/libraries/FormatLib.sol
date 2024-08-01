@@ -17,6 +17,30 @@ library FormatLib {
         return x.toString();
     }
 
+    function toBin(uint256 x) internal pure returns (string memory) {
+        string memory str;
+        do {
+            str = string.concat(x & 1 == 0 ? "0" : "1", str);
+            x >>= 1;
+        } while (x > 0);
+        return str;
+    }
+
+    function toBin(uint256 x, uint256 padTo) internal pure returns (string memory) {
+        string memory asBin = x.toBin();
+        uint256 len = bytes(asBin).length;
+        if (len < padTo) {
+            string memory zeros = "0";
+            uint256 diff = padTo - len;
+            do {
+                if (diff & 1 == 1) asBin = string.concat(zeros, asBin);
+                diff >>= 1;
+                zeros = string.concat(zeros, zeros);
+            } while (diff > 0);
+        }
+        return asBin;
+    }
+
     function toStr(int256 x) internal pure returns (string memory) {
         return x.toString();
     }
