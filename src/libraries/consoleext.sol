@@ -9,7 +9,7 @@ import {LibString} from "solady/src/utils/LibString.sol";
 library consoleext {
     using LibString for uint256;
 
-    function logInWords(bytes memory data) public pure {
+    function logInWords(bytes memory data) internal pure {
         for (uint256 i = 0; i < data.length; i += 32) {
             uint256 word;
             assembly ("memory-safe") {
@@ -21,7 +21,7 @@ library consoleext {
         }
     }
 
-    function logMemWords(uint256 startOffset, uint256 endOffset) public pure {
+    function logMemWords(uint256 startOffset, uint256 endOffset) internal pure {
         for (uint256 offset = startOffset; offset < endOffset; offset += 32) {
             uint256 wordEnd = offset + 32;
             if (wordEnd > endOffset) wordEnd = endOffset;
