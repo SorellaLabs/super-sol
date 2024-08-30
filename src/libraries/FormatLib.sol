@@ -27,18 +27,21 @@ library FormatLib {
     }
 
     function toBin(uint256 x, uint256 padTo) internal pure returns (string memory) {
-        string memory asBin = x.toBin();
-        uint256 len = bytes(asBin).length;
+        return x.toBin().lpad("0", padTo);
+    }
+
+    function lpad(string memory str, bytes1 char, uint256 padTo) internal pure returns (string memory) {
+        uint256 len = bytes(str).length;
         if (len < padTo) {
-            string memory zeros = "0";
+            string memory padding = string(bytes.concat(char));
             uint256 diff = padTo - len;
             do {
-                if (diff & 1 == 1) asBin = string.concat(zeros, asBin);
+                if (diff & 1 == 1) str = string.concat(padding, str);
                 diff >>= 1;
-                zeros = string.concat(zeros, zeros);
+                padding = string.concat(padding, padding);
             } while (diff > 0);
         }
-        return asBin;
+        return str;
     }
 
     function toStr(int256 x) internal pure returns (string memory) {

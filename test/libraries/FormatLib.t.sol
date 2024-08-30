@@ -131,4 +131,9 @@ contract FormatLibTest is Test {
         assertEq(FormatLib.fmtD(uint256(0)), "0.000000");
         assertEq(FormatLib.fmtD(uint256(1.9999999e18)), "2.000000");
     }
+
+    function test_asBin() public pure {
+        assertEq(FormatLib.toBin(5), "101");
+        assertEq(FormatLib.toBin(127, 10), "0001111111");
+    }
 }
