@@ -11,6 +11,13 @@ library SignedUnsignedLib {
         return int256(x);
     }
 
+    function neg(uint256 x) internal pure returns (int256) {
+        if (x > (1 << 255)) revert Overflow();
+        unchecked {
+            return int256(0 - x);
+        }
+    }
+
     function unsigned(int256 x) internal pure returns (uint256) {
         if (x < 0) revert Underflow();
         return uint256(x);
