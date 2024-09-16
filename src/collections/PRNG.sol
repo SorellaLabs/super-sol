@@ -3,6 +3,7 @@ pragma solidity ^0.8.13;
 
 import {FixedPointMathLib} from "solady/src/utils/FixedPointMathLib.sol";
 import {SignedUnsignedLib} from "../libraries/SignedUnsignedLib.sol";
+import {UsedIndexMap} from "./UsedIndexMap.sol";
 
 struct PRNG {
     uint256 __state;
@@ -44,6 +45,10 @@ library PRNGLib {
     function randuint8(PRNG memory self, uint256 max) internal pure returns (uint8) {
         require(max <= 256, "Invalid max");
         return uint8(self.randuint(max));
+    }
+
+    function useRandIndex(PRNG memory self, UsedIndexMap memory map) internal pure returns (uint256) {
+        return map.useIndex(self.randuint(map.length));
     }
 
     function randmag(PRNG memory self, uint256 low, uint256 high) internal pure returns (uint256) {
