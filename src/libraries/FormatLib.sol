@@ -83,6 +83,15 @@ library FormatLib {
         return string.concat(str, "]");
     }
 
+    function toStr(uint128[] memory values) internal pure returns (string memory) {
+        if (values.length == 0) return "[]";
+        string memory str = string.concat("[", values[0].toStr());
+        for (uint128 i = 1; i < values.length; i++) {
+            str = string.concat(str, ", ", values[i].toStr());
+        }
+        return string.concat(str, "]");
+    }
+
     function toStr(bool[] memory values) internal pure returns (string memory) {
         if (values.length == 0) return "[]";
         string memory str = string.concat("[", values[0].toStr());
