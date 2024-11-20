@@ -59,7 +59,7 @@ contract MockERC20 {
         return "MCK";
     }
 
-    function decimal() public pure virtual returns (uint8) {
+    function decimals() public pure virtual returns (uint8) {
         return 18;
     }
 }
